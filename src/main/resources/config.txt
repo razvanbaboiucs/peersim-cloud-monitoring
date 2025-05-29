@@ -1,0 +1,58 @@
+# ================================================
+# PeerSim Cloud Monitoring Simulation Configuration
+# ================================================
+
+# ----------------------
+# Global Simulation Setup
+# ----------------------
+simulation.cycles 100
+simulation.shuffle
+random.seed 1234589
+
+network.size 1000
+total_projects 100
+
+# --------------------
+# Protocol Definitions
+# --------------------
+protocol.0 com.razvanbaboiu.cloudmonitoring.protocol.CloudServiceProtocol
+
+protocol.1 com.razvanbaboiu.cloudmonitoring.protocol.MonitoringAgentProtocol
+protocol.1.linkable 3            # Linkable protocol ID for neighbor tracking
+protocol.1.cloudservice_proto 0  # Reference CloudServiceProtocol (ID 0)
+protocol.1.aggregator_proto 2    # Reference MetricAggregatorProtocol (ID 2)
+
+protocol.2 com.razvanbaboiu.cloudmonitoring.protocol.MetricAggregatorProtocol
+protocol.2.cpu_threshold 85      # Alert threshold for CPU
+protocol.2.memory_threshold 90   # Alert threshold for Memory
+
+protocol.3 peersim.core.IdleProtocol  # Linkable protocol for neighbor management
+protocol.3.degree 20             # Initial connection count
+
+# ----------------------
+# Initialization Sequence
+# ----------------------
+init.0 com.razvanbaboiu.cloudmonitoring.init.CloudServiceNodeInitializer
+init.0.cloud_service_proto 0
+
+init.1 com.razvanbaboiu.cloudmonitoring.init.MetricAggregatorNodeInitializer
+init.1.metric_aggregator_proto 2
+
+init.2 com.razvanbaboiu.cloudmonitoring.init.WireMonitoringAgents
+init.2.monitoring_agent_proto 1
+init.2.linkable_proto 3
+
+# ------------------
+# Control Components
+# ------------------
+control.0 com.razvanbaboiu.cloudmonitoring.control.AnomalyControl
+control.0.protocol 0             # Target CloudServiceProtocol (ID 0)
+
+# ----------------------
+# Output Configuration
+# ----------------------
+observer.0 peersim.reports.GraphObserver
+observer.0.protocol 3           # Track IdleProtocol connections
+
+observer.1 com.razvanbaboiu.cloudmonitoring.QuotaObserver  # Custom quota tracking
+observer.1.protocol 1           # Monitor MonitoringAgentProtocol
