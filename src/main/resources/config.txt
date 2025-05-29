@@ -49,10 +49,6 @@ control.0 com.razvanbaboiu.cloudmonitoring.control.AnomalyControl
 control.0.protocol 0             # Target CloudServiceProtocol (ID 0)
 
 # ----------------------
-# Output Configuration
+# Observer Configuration
 # ----------------------
-observer.0 peersim.reports.GraphObserver
-observer.0.protocol 3           # Track IdleProtocol connections
-
-observer.1 com.razvanbaboiu.cloudmonitoring.QuotaObserver  # Custom quota tracking
-observer.1.protocol 1           # Monitor MonitoringAgentProtocol
+control.1 com.razvanbaboiu.cloudmonitoring.observer.CloudServiceNodeObserver

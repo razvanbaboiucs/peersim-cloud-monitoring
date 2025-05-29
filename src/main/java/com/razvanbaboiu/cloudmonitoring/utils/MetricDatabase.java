@@ -75,4 +75,8 @@ public class MetricDatabase {
                 .sorted(Comparator.comparing(Metric::modifiedAt))
                 .toList();
     }
+
+    public Long getNumberOfMetricsByNode(Long nodeId) {
+        return getCollection().find(where(NODE_ID).eq(nodeId)).size();
+    }
 }

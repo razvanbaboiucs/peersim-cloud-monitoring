@@ -1,12 +1,13 @@
 package com.razvanbaboiu.cloudmonitoring.init;
 
-import com.razvanbaboiu.cloudmonitoring.protocol.CloudServiceProtocol;
 import com.razvanbaboiu.cloudmonitoring.protocol.MonitoringAgentProtocol;
 import com.razvanbaboiu.cloudmonitoring.utils.NodeTypeRatio;
 import peersim.config.Configuration;
 import peersim.core.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class WireMonitoringAgents implements Control {
 
@@ -14,7 +15,6 @@ public class WireMonitoringAgents implements Control {
     private final int linkableProtoId;
 
     // Data structures for efficient lookup
-    private final Map<Integer, List<Node>> projectToNodes = new HashMap<>();
 
     public WireMonitoringAgents(String prefix) {
         monitoringAgentProtoId = Configuration.getPid(prefix + ".monitoring_agent_proto");
@@ -32,6 +32,7 @@ public class WireMonitoringAgents implements Control {
             cloudServiceNodeIds.add(i);
         }
         Collections.shuffle(cloudServiceNodeIds, CommonState.r);
+        var cloudServiceNodeIndex = 0;
 
         int cloudServiceNodesPerAgent = (int) (monitoringAgentStart / (totalNodes * NodeTypeRatio.MONITORING_AGENT_NODE_RATIO));
 
@@ -48,7 +49,8 @@ public class WireMonitoringAgents implements Control {
             if (linkable == null) continue;
 
             for (int j = 0; j < cloudServiceNodesPerAgent; j++) {
-                Node serviceNode = Network.get(cloudServiceNodeIds.get(j));
+                Node serviceNode = Network.get(cloudServiceNodeIds.get(cloudServiceNodeIndex));
+                cloudServiceNodeIndex++;
                 if (serviceNode.isUp() && !containsNode(linkable, serviceNode)) {
                     linkable.addNeighbor(serviceNode);
                 }
