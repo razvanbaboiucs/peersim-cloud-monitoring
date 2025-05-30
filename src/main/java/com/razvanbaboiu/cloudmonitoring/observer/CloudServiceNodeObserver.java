@@ -20,16 +20,18 @@ public class CloudServiceNodeObserver implements Control {
             System.out.println("Skip first cycle observe");
             return false;
         }
-        int totalNodes = Network.size();
-        int cloudServiceEnd = (int) (totalNodes * NodeTypeRatio.CLOUD_SERVICE_NODE_RATIO);
-        for (int i = 0; i < cloudServiceEnd; i++) {
+
+        int cloudServiceEnd = NodeTypeRatio.getCloudServiceNodeEndIndex();
+        int cloudServiceStart = NodeTypeRatio.getCloudServiceNodeStartIndex();
+        for (int i = cloudServiceStart; i < cloudServiceEnd; i++) {
             var nodeId = Network.get(i).getID();
             Long numberOfMetricsByNode = db.getNumberOfMetricsByNode(nodeId);
             if (numberOfMetricsByNode < CDState.getCycle()) {
-                System.out.println("Metric was not added in db!node id: " + nodeId);
+                System.out.println("[FAILURE] Metric was not added in database for NodeID: " + nodeId);
                 return true;
             }
         }
+
         return false;
     }
 }

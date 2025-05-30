@@ -24,14 +24,14 @@ public class AnomalyControl implements Control {
             return false;
         }
 
-        int totalNodes = Network.size();
-        int cloudServiceEnd = (int) (totalNodes * NodeTypeRatio.CLOUD_SERVICE_NODE_RATIO);
-        // Randomly spike metrics for 10% of CloudServiceNodes
-        for (int i = 0; i < cloudServiceEnd; i++) {
+        int cloudServiceEnd = NodeTypeRatio.getCloudServiceNodeEndIndex();
+        int cloudServiceStart = NodeTypeRatio.getCloudServiceNodeStartIndex();
+
+        for (int i = cloudServiceStart; i < cloudServiceEnd; i++) {
             Node node = Network.get(i);
             CloudServiceProtocol csp = (CloudServiceProtocol) node.getProtocol(protocolID);
             if (CommonState.r.nextDouble() < 0.3) {
-                csp.setCpu(90.0 + (CommonState.r.nextDouble() * 10)); // Spike to 100%
+                csp.setCpu(90.0 + (CommonState.r.nextDouble() * 10));
                 csp.setMemory(85.0 + (CommonState.r.nextDouble() * 15));
             } else {
                 csp.setCpu(20.0 + (CommonState.r.nextDouble() * 30)); // 20-50% initial load
