@@ -1,4 +1,4 @@
-package com.razvanbaboiu.cloudmonitoring.utils;
+package com.razvanbaboiu.cloudmonitoring.data;
 
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.collection.Document;

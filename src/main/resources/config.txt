@@ -52,10 +52,12 @@ init.3.linkable_proto 4
 # ------------------
 # Control Components
 # ------------------
-control.0 com.razvanbaboiu.cloudmonitoring.control.AnomalyControl
+control.0 com.razvanbaboiu.cloudmonitoring.control.CloudServiceMetricAnomalyControl
 control.0.protocol 0
+
+control.1 com.razvanbaboiu.cloudmonitoring.control.MonitoringAgentAnomalyControl
 
 # ----------------------
 # Observer Configuration
 # ----------------------
-control.1 com.razvanbaboiu.cloudmonitoring.observer.CloudServiceNodeObserver
+control.2 com.razvanbaboiu.cloudmonitoring.observer.CloudServiceNodeObserver

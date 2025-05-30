@@ -1,7 +1,7 @@
 package com.razvanbaboiu.cloudmonitoring.protocol;
 
-import com.razvanbaboiu.cloudmonitoring.utils.Metric;
-import com.razvanbaboiu.cloudmonitoring.utils.MetricDatabase;
+import com.razvanbaboiu.cloudmonitoring.data.Metric;
+import com.razvanbaboiu.cloudmonitoring.data.MetricDatabase;
 import lombok.Setter;
 import peersim.cdsim.CDProtocol;
 import peersim.config.Configuration;

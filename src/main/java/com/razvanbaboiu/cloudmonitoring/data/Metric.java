@@ -1,4 +1,4 @@
-package com.razvanbaboiu.cloudmonitoring.utils;
+package com.razvanbaboiu.cloudmonitoring.data;
 
 import lombok.Builder;
 

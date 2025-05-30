@@ -10,10 +10,10 @@ import peersim.core.Control;
 import peersim.core.Network;
 import peersim.core.Node;
 
-public class AnomalyControl implements Control {
+public class CloudServiceMetricAnomalyControl implements Control {
     private final int protocolID;
 
-    public AnomalyControl(String prefix) {
+    public CloudServiceMetricAnomalyControl(String prefix) {
         protocolID = Configuration.getPid(prefix + ".protocol");
     }
 

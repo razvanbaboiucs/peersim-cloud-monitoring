@@ -1,6 +1,6 @@
 package com.razvanbaboiu.cloudmonitoring.observer;
 
-import com.razvanbaboiu.cloudmonitoring.utils.MetricDatabase;
+import com.razvanbaboiu.cloudmonitoring.data.MetricDatabase;
 import com.razvanbaboiu.cloudmonitoring.utils.NodeTypeRatio;
 import peersim.cdsim.CDState;
 import peersim.core.Control;
