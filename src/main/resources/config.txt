@@ -5,6 +5,7 @@
 # ----------------------
 # Global Simulation Setup
 # ----------------------
+simulation.experiments 10
 simulation.cycles 100
 simulation.shuffle
 random.seed 1234589
@@ -57,7 +58,10 @@ control.0.protocol 0
 
 control.1 com.razvanbaboiu.cloudmonitoring.control.MonitoringAgentAnomalyControl
 
+control.2 com.razvanbaboiu.cloudmonitoring.control.MetricDatabaseCleanupControl
+control.2.FINAL
+
 # ----------------------
 # Observer Configuration
 # ----------------------
-control.2 com.razvanbaboiu.cloudmonitoring.observer.CloudServiceNodeObserver
+control.3 com.razvanbaboiu.cloudmonitoring.observer.CloudServiceNodeObserver

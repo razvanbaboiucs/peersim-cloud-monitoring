@@ -79,4 +79,8 @@ public class MetricDatabase {
     public Long getNumberOfMetricsByNode(Long nodeId) {
         return getCollection().find(where(NODE_ID).eq(nodeId)).size();
     }
+
+    public void cleanup() {
+        getCollection().clear();
+    }
 }
