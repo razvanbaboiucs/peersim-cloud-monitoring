@@ -10,14 +10,16 @@ import peersim.core.Node;
 import java.util.List;
 
 public class MetricAggregatorProtocol implements CDProtocol {
+    private static final int WINDOW_SIZE = 10;
 
-    public static final int WINDOW_SIZE = 10;
-    // Configuration parameters
+    // CONFIGURATION PROPERTIES
     private final double cpuThreshold;
     private final double memoryThreshold;
+
+    // CONTROLLABLE PROPERTIES
+    private final MetricDatabase db;
     @Setter
     private boolean isRunning = false;
-    private final MetricDatabase db;
     @Setter
     private List<Integer> assignedProjects;
 
@@ -29,9 +31,8 @@ public class MetricAggregatorProtocol implements CDProtocol {
 
     @Override
     public void nextCycle(Node node, int protocolID) {
-        if (!isRunning) {
-            return;
-        }
+        if (!isRunning) return;
+
         assignedProjects.forEach(projectId -> {
             List<Metric> metricsForProject = db.getMetricsForProject(projectId, WINDOW_SIZE);
             var size = metricsForProject.isEmpty() ? 1 : metricsForProject.size();

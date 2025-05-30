@@ -16,37 +16,44 @@ total_projects 100
 # Protocol Definitions
 # --------------------
 protocol.0 com.razvanbaboiu.cloudmonitoring.protocol.CloudServiceProtocol
+protocol.0.linkable_proto 4
+protocol.0.load_balancer_proto 3
 
 protocol.1 com.razvanbaboiu.cloudmonitoring.protocol.MonitoringAgentProtocol
-protocol.1.linkable 3            # Linkable protocol ID for neighbor tracking
-protocol.1.cloudservice_proto 0  # Reference CloudServiceProtocol (ID 0)
-protocol.1.aggregator_proto 2    # Reference MetricAggregatorProtocol (ID 2)
 
 protocol.2 com.razvanbaboiu.cloudmonitoring.protocol.MetricAggregatorProtocol
-protocol.2.cpu_threshold 85      # Alert threshold for CPU
-protocol.2.memory_threshold 90   # Alert threshold for Memory
+protocol.2.cpu_threshold 85
+protocol.2.memory_threshold 90
 
-protocol.3 peersim.core.IdleProtocol  # Linkable protocol for neighbor management
-protocol.3.degree 20             # Initial connection count
+protocol.3 com.razvanbaboiu.cloudmonitoring.protocol.LoadBalancerProtocol
+protocol.3.linkable_proto 4
+protocol.3.monitoring_agent_proto 1
+
+protocol.4 peersim.core.IdleProtocol
+protocol.4.degree 20
 
 # ----------------------
 # Initialization Sequence
 # ----------------------
 init.0 com.razvanbaboiu.cloudmonitoring.init.CloudServiceNodeInitializer
 init.0.cloud_service_proto 0
+init.0.linkable_proto 4
 
 init.1 com.razvanbaboiu.cloudmonitoring.init.MetricAggregatorNodeInitializer
 init.1.metric_aggregator_proto 2
 
-init.2 com.razvanbaboiu.cloudmonitoring.init.WireMonitoringAgents
+init.2 com.razvanbaboiu.cloudmonitoring.init.MonitoringAgentsInitializer
 init.2.monitoring_agent_proto 1
-init.2.linkable_proto 3
+
+init.3 com.razvanbaboiu.cloudmonitoring.init.LoadBalancerInitializer
+init.3.load_balancer_proto 3
+init.3.linkable_proto 4
 
 # ------------------
 # Control Components
 # ------------------
 control.0 com.razvanbaboiu.cloudmonitoring.control.AnomalyControl
-control.0.protocol 0             # Target CloudServiceProtocol (ID 0)
+control.0.protocol 0
 
 # ----------------------
 # Observer Configuration

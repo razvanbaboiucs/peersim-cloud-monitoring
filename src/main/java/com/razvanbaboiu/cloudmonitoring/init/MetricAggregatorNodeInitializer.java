@@ -21,20 +21,14 @@ public class MetricAggregatorNodeInitializer implements Control {
 
     @Override
     public boolean execute() {
-        int totalNodes = Network.size();
-        int metricAggregatorStartNode =
-                (int) (totalNodes * (NodeTypeRatio.CLOUD_SERVICE_NODE_RATIO + NodeTypeRatio.MONITORING_AGENT_NODE_RATIO));
-        int totalMetricAggregatorNodes = (int) (totalNodes * NodeTypeRatio.METRIC_AGGREGATOR_NODE_RATIO);
-        int totalProjectsPerNode = totalProjects / totalMetricAggregatorNodes;
+        int metricAggregatorStartNode = NodeTypeRatio.getMetricAggregatorNodeStartIndex();
+        int metricAggregatorEndNode = NodeTypeRatio.getMetricAggregatorNodeEndIndex();
 
-        List<Integer> projects = new ArrayList<>();
-        for (int p = 1; p <= totalProjects; p++) {
-            projects.add(p);
-        }
-        Collections.shuffle(projects, CommonState.r);
+        List<Integer> projects = getProjects();
+        int totalProjectsPerNode = totalProjects / NodeTypeRatio.getTotalMetricAggregatorNodes();
 
         var projectIndex = 0;
-        for (int i = metricAggregatorStartNode; i < totalNodes; i++) {
+        for (int i = metricAggregatorStartNode; i < metricAggregatorEndNode; i++) {
             Node node = Network.get(i);
             MetricAggregatorProtocol protocol = (MetricAggregatorProtocol) node.getProtocol(metricAggregatorProtoId);
 
@@ -48,5 +42,14 @@ public class MetricAggregatorNodeInitializer implements Control {
         }
 
         return false;
+    }
+
+    private List<Integer> getProjects() {
+        List<Integer> projects = new ArrayList<>();
+        for (int p = 1; p <= totalProjects; p++) {
+            projects.add(p);
+        }
+        Collections.shuffle(projects, CommonState.r);
+        return projects;
     }
 }
