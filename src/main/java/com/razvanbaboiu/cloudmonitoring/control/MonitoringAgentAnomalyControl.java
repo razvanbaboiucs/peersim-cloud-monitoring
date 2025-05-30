@@ -60,6 +60,8 @@ public class MonitoringAgentAnomalyControl implements Control {
                 .filter(integer -> !idsToRemove.contains(integer))
                 .toList();
 
-        idsToIncreaseCycleCount.forEach(id -> unresponsiveMonitoringAgents.compute(id, (_, cycleCount) -> cycleCount + 1));
+        idsToIncreaseCycleCount.forEach(id ->
+                unresponsiveMonitoringAgents.compute(id, (_, cycleCount) -> cycleCount == null ? 0 : cycleCount + 1)
+        );
     }
 }
